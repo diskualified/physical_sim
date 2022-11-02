@@ -6,12 +6,13 @@
 namespace GLOO {
 class ParticleSystemPendulum: public ParticleSystemBase {
  public:
-  float mass = 3.;
+  float mass = .3;
   glm::vec3 g = glm::vec3(0., -9.8, 0.);
 
   // separate per spring?
   float k = 5.;
   float rest = 0.5;
+  glm::vec3 fixed_pt = glm::vec3(-0.5, 1., 0.);
   // no more: std::vector<SceneNode*> spring_ptrs; // stores indices of connected particle pair, stiffness, rest length
 
   // std::vector<ParticleState> particles;
@@ -50,18 +51,14 @@ class ParticleSystemPendulum: public ParticleSystemBase {
     // A(x, x')
     glm::vec3 G = mass * g;
     glm::vec3 D = -k * state.velocities[0];
-    std::cout << D.x << " " << D.y  << " " << D.z << std::endl;
-    glm::vec3 fixed_pt = glm::vec3(-0.5, 1., 0.);
     glm::vec3 d = state.positions[0] - fixed_pt;
     // std::cout << d.x << " " << d.y  << " " << d.z << std::endl;
-    // std::cout << glm::length(d) << std::endl;
+    std::cout << glm::length(d) << std::endl;
     glm::vec3 S = -k * (glm::length(d) - rest) * glm::normalize(d);
     std::cout << S.x << " " << S.y  << " " << S.z << std::endl;
+    // state velocity goes to 0
+    // acceleration is positive but also decreasing -- something is wrong, should be increasing positive
     new_state.velocities.push_back((G + D + S)/mass);
-    // velocity goes to 0
-    std::cout << "old" << state.velocities[0].x << " " << state.velocities[0].y  << " " << state.velocities[0].z << std::endl;
-
-    std::cout << new_state.velocities[0].x << " " << new_state.velocities[0].y  << " " << new_state.velocities[0].z << std::endl;
     return new_state;
   }
 };
