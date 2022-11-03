@@ -1,5 +1,5 @@
-#ifndef PENDULUM_NODE_H_
-#define PENDULUM_NODE_H_
+#ifndef CLOTH_NODE_H_
+#define CLOTH_NODE_H_
 
 #include <vector>
 #include <memory>
@@ -22,24 +22,27 @@
 #include "gloo/VertexObject.hpp"
 #include "gloo/shaders/ShaderProgram.hpp"
 #include "gloo/shaders/PhongShader.hpp"
-#include "gloo/debug/PrimitiveFactory.hpp"
-
 
 
 namespace GLOO {
-class PendulumNode: public SceneNode {
+class ClothNode: public SceneNode {
  public:
-  PendulumNode(IntegratorType type, float step);
+  ClothNode(IntegratorType type, float step);
   void Update(double delta_time) override;
-
+  int IndexOf(int i, int j);
+  
  private:
+  std::vector<ParticleState> states;
   ParticleState state;
   std::unique_ptr<IntegratorBase<ParticleSystemPendulum, ParticleState>> integrator;
   ParticleSystemPendulum system;
   float step;
-  std::shared_ptr<VertexObject> sphere_mesh_ = PrimitiveFactory::CreateSphere(0.03, 25, 25);
+  std::shared_ptr<VertexObject> sphere_mesh_;
   std::shared_ptr<ShaderProgram> shader_ = std::make_shared<PhongShader>();
-  std::vector<SceneNode*> sphere_node_ptrs;
+  SceneNode* sphere_node_ptr;
+  bool fixed;
+  std::shared_ptr<VertexObject> cloth_mesh_;
+
 
   ComponentBase* GetComponentPtrByType(ComponentType type) const;
   std::vector<ComponentBase*> GetComponentsPtrInChildrenByType(

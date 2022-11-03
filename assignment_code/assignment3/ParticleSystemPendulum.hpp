@@ -6,59 +6,50 @@
 namespace GLOO {
 class ParticleSystemPendulum: public ParticleSystemBase {
  public:
-  float mass = .3;
+  float mass = .1;
+  float drag = 0.03;
   glm::vec3 g = glm::vec3(0., -9.8, 0.);
+  // make 2d vector that stores 2 indices, rest len, spring constant k
+  std::vector<glm::vec4> springs;
+  std::vector<bool> fixed;
 
-  // separate per spring?
-  float k = 5.;
-  float rest = 0.5;
-  glm::vec3 fixed_pt = glm::vec3(-0.5, 1., 0.);
-  // no more: std::vector<SceneNode*> spring_ptrs; // stores indices of connected particle pair, stiffness, rest length
-
-  // std::vector<ParticleState> particles;
-  // attach to particles: std::vector<SceneNode*> sphere_node_prts;
-  // store connected particle index at each index (vector of vectors)
-
-  void AddParticle(float mass) {
-    // TODO
+  void AddParticle(ParticleState& state, glm::vec3 pos) {
+    state.positions.push_back(pos);
+    state.velocities.push_back(glm::vec3(0.2, -0.1, 0.));
   }
-  void AddSpring(ParticleState p1, ParticleState p2) {
-    // TODO
+  void AddSpring(int ind1, int ind2, float r, float k) {
+    springs.push_back(glm::vec4(ind1, ind2, r, k));
   } 
-  void FixParticle(ParticleState p) {
-    // TODO: set flag so computetimederivative returns 0 derivatives;
-    
+  void FixParticle(int ind) {
+    fixed[ind] = true;
   }
-//   std::vector<ParticleState> A(std::vector<ParticleState> particles_) {
-//     std::vector<glm::vec3> x;
-//     std::vector<glm::vec3> v;
-//     std::vector<glm::vec3> a;
-//     for (int i = 0; i < particles_.size(); ++i) {
-//         x.push_back(particles_[i].positions[0]);
-//         v.push_back(particles_[i].velocities[0]);
-//     } 
-//     for (int i = 0; i < particles_.size(); ++i) {
-//         // float G_i = mass * g;
-//         // a[0] = 1/m0 (G_0 + D0(v[0]) + sum of connected particles spring force
-//     }
-//   }
-  // Change this to vector of states?
+  
   ParticleState ComputeTimeDerivative(const ParticleState& state,
                                               float time) const {
     // state change (f)
     ParticleState new_state = ParticleState();
-    new_state.positions.push_back(state.velocities[0]);
-    // A(x, x')
-    glm::vec3 G = mass * g;
-    glm::vec3 D = -k * state.velocities[0];
-    glm::vec3 d = state.positions[0] - fixed_pt;
-    // std::cout << d.x << " " << d.y  << " " << d.z << std::endl;
-    std::cout << glm::length(d) << std::endl;
-    glm::vec3 S = -k * (glm::length(d) - rest) * glm::normalize(d);
-    std::cout << S.x << " " << S.y  << " " << S.z << std::endl;
-    // state velocity goes to 0
-    // acceleration is positive but also decreasing -- something is wrong, should be increasing positive
-    new_state.velocities.push_back((G + D + S)/mass);
+    for (int i = 0; i < state.positions.size(); ++i) {
+      if (fixed[i] == 1 || springs.size() == 0) {
+        new_state.positions.push_back(glm::vec3(0.));
+        new_state.velocities.push_back(glm::vec3(0.));
+      } else {
+        new_state.positions.push_back(state.velocities[i]);
+        // A(x, x')
+        glm::vec3 G = mass * g;
+        glm::vec3 D = -drag * state.velocities[i];
+        glm::vec3 S = glm::vec3(0.);
+        for (int j = 0; j < springs.size(); ++j) {
+          if (springs[j].x == i) {
+            glm::vec3 d = state.positions[i] - state.positions[springs[j].y];
+            S += -springs[j].w * (glm::length(d) - springs[j].z) * glm::normalize(d);
+          } else if (springs[j].y == i) {
+            glm::vec3 d = state.positions[i] - state.positions[springs[j].x];
+            S += -springs[j].w * (glm::length(d) - springs[j].z) * glm::normalize(d);
+          }
+        }
+        new_state.velocities.push_back((G + D + S)/mass);
+      }
+    }
     return new_state;
   }
 };

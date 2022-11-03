@@ -2,59 +2,68 @@
 #include "IntegratorFactory.hpp"
 #include "gloo/components/ShadingComponent.hpp"
 #include "gloo/components/RenderingComponent.hpp"
-#include "gloo/debug/PrimitiveFactory.hpp"
 
 #include <glm/gtx/string_cast.hpp>
 
 namespace GLOO {
 PendulumNode::PendulumNode(IntegratorType integrator_type, float integrator_step) : transform_(*this), parent_(nullptr), active_(true) {
     state = ParticleState();
-    state.positions.push_back(glm::vec3(-0.5, 0.5, 0.));
-    state.velocities.push_back(glm::vec3(0., -0.5, 0.));
-
+    // state.positions.push_back(glm::vec3(-0.5, 1., 0.));
+    // state.velocities.push_back(glm::vec3(0, 0.1, 0.));
     integrator = IntegratorFactory::CreateIntegrator<ParticleSystemPendulum, ParticleState>(integrator_type);
     system = ParticleSystemPendulum();
     step = integrator_step;
 
-    sphere_mesh_ = PrimitiveFactory::CreateSphere(0.03, 25, 25);
-    auto sphere_node = make_unique<SceneNode>();
-    sphere_node->GetTransform().SetPosition(state.positions[0]);
-    sphere_node->CreateComponent<RenderingComponent>(sphere_mesh_);
-    sphere_node->CreateComponent<ShadingComponent>(shader_);
-    sphere_node_ptr = sphere_node.get();
+    float k = 5.;
+    float r = 0.25;
+    float y = 1.;
 
-    AddChild(std::move(sphere_node));
+    for (int i = 0; i < 5; ++i) {
+      system.AddParticle(state, glm::vec3(-1., y, 0.));
+      system.fixed.push_back(false);
+      if (i > 0) {
+        system.AddSpring(i-1, i, r, k);
+      }
+      r -= 0.01;
+      k -= 0.5;
+      y -= 0.01;
 
-    sphere_mesh_ = PrimitiveFactory::CreateSphere(0.03, 25, 25);
-    auto sphere_node1 = make_unique<SceneNode>();
-    // fixed pos
-    sphere_node1->GetTransform().SetPosition(glm::vec3(-0.5, 1., 0.));
-    sphere_node1->CreateComponent<RenderingComponent>(sphere_mesh_);
-    sphere_node1->CreateComponent<ShadingComponent>(shader_);
-    AddChild(std::move(sphere_node1));
+      auto sphere_node = make_unique<SceneNode>();
+      sphere_node->GetTransform().SetPosition(state.positions[i]);
+      sphere_node->CreateComponent<RenderingComponent>(sphere_mesh_);
+      sphere_node->CreateComponent<ShadingComponent>(shader_);
+      sphere_node_ptrs.push_back(sphere_node.get());
+      AddChild(std::move(sphere_node));
+    }
+
+    system.FixParticle(0);
+    // system.FixParticle(1);
 }
 
 void PendulumNode::Update(double delta_time) {
   if (step > delta_time) {
     state = integrator->Integrate(system, state, 0, delta_time);
-    sphere_node_ptr->GetTransform().SetPosition(state.positions[0]);
+    for (int i = 0; i < sphere_node_ptrs.size(); ++i) {
+      sphere_node_ptrs[i]->GetTransform().SetPosition(state.positions[i]);
+    }
   }
   else {
-    float i;
-    for (i = 0; i < delta_time; i += step) {
+    float j;
+    for (j = 0; j < delta_time; j += step) {
         // integrate 
-        state = integrator->Integrate(system, state, i, step);
-        sphere_node_ptr->GetTransform().SetPosition(state.positions[0]);
+        state = integrator->Integrate(system, state, j, step);
+        for (int i = 0; i < sphere_node_ptrs.size(); ++i) {
+          sphere_node_ptrs[i]->GetTransform().SetPosition(state.positions[i]);
+        }
     }
-
     // remainder
-    if (i > 0) {
-        state = integrator->Integrate(system, state, i, delta_time - i);
-        sphere_node_ptr->GetTransform().SetPosition(state.positions[0]);
+    if (j > 0) {
+        state = integrator->Integrate(system, state, j, delta_time - j);
+        for (int i = 0; i < sphere_node_ptrs.size(); ++i) {
+          sphere_node_ptrs[i]->GetTransform().SetPosition(state.positions[i]);
+        }
     }
   }
-//   std::cout << state.positions[0].x << std::endl;
-//   std::cout << state.velocities[0].x << std::endl;
 
 }
 

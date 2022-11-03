@@ -1417,13 +1417,12 @@ CMakeFiles/assignment3.dir/assignment_code/assignment3/PendulumNode.cpp.o: /User
   /Users/davidqian/mit/assignment3/gloo/gl_wrapper/BindGuard.hpp \
   /Users/davidqian/mit/assignment3/gloo/shaders/ShaderProgram.hpp \
   /Users/davidqian/mit/assignment3/gloo/shaders/PhongShader.hpp \
-  /Users/davidqian/mit/assignment3/assignment_code/assignment3/SimpleODE.hpp \
+  /Users/davidqian/mit/assignment3/gloo/debug/PrimitiveFactory.hpp \
   /Users/davidqian/mit/assignment3/assignment_code/assignment3/IntegratorFactory.hpp \
   /Users/davidqian/mit/assignment3/assignment_code/assignment3/TrapIntegrator.hpp \
   /Users/davidqian/mit/assignment3/assignment_code/assignment3/RK4Integrator.hpp \
   /Users/davidqian/mit/assignment3/gloo/components/ShadingComponent.hpp \
   /Users/davidqian/mit/assignment3/gloo/components/RenderingComponent.hpp \
-  /Users/davidqian/mit/assignment3/gloo/debug/PrimitiveFactory.hpp \
   /Users/davidqian/mit/assignment3/external/src/glm-0.9.9.8/glm/gtx/string_cast.hpp \
   /Users/davidqian/mit/assignment3/external/src/glm-0.9.9.8/glm/glm.hpp \
   /Users/davidqian/mit/assignment3/external/src/glm-0.9.9.8/glm/gtc/type_precision.hpp \
@@ -2210,7 +2209,8 @@ CMakeFiles/assignment3.dir/assignment_code/assignment3/SimulationApp.cpp.o: /Use
   /Users/davidqian/mit/assignment3/assignment_code/assignment3/EulerSceneNode.hpp \
   /Users/davidqian/mit/assignment3/assignment_code/assignment3/SimpleODE.hpp \
   /Users/davidqian/mit/assignment3/assignment_code/assignment3/ParticleSystemPendulum.hpp \
-  /Users/davidqian/mit/assignment3/assignment_code/assignment3/PendulumNode.hpp
+  /Users/davidqian/mit/assignment3/assignment_code/assignment3/PendulumNode.hpp \
+  /Users/davidqian/mit/assignment3/gloo/debug/PrimitiveFactory.hpp
 
 CMakeFiles/assignment3.dir/assignment_code/assignment3/main.cpp.o: /Users/davidqian/mit/assignment3/assignment_code/assignment3/main.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/iostream \
