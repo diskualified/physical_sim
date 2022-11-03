@@ -18,6 +18,7 @@
 #include "EulerSceneNode.hpp"
 #include "ParticleSystemPendulum.hpp"
 #include "PendulumNode.hpp"
+#include "ClothNode.hpp"
 
 
 namespace GLOO {
@@ -63,6 +64,9 @@ void SimulationApp::SetupScene() {
 
   auto pendulum_node = make_unique<PendulumNode>(integrator_type_, integration_step_);
   root.AddChild(std::move(pendulum_node));
+
+  auto cloth_node = make_unique<ClothNode>(integrator_type_, integration_step_);
+  root.AddChild(std::move(cloth_node));
 
 }
 }  // namespace GLOO

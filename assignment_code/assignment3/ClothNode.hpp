@@ -22,6 +22,8 @@
 #include "gloo/VertexObject.hpp"
 #include "gloo/shaders/ShaderProgram.hpp"
 #include "gloo/shaders/PhongShader.hpp"
+#include "gloo/debug/PrimitiveFactory.hpp"
+#include "gloo/shaders/SimpleShader.hpp"
 
 
 namespace GLOO {
@@ -32,16 +34,17 @@ class ClothNode: public SceneNode {
   int IndexOf(int i, int j);
   
  private:
-  std::vector<ParticleState> states;
   ParticleState state;
   std::unique_ptr<IntegratorBase<ParticleSystemPendulum, ParticleState>> integrator;
   ParticleSystemPendulum system;
   float step;
-  std::shared_ptr<VertexObject> sphere_mesh_;
+  std::shared_ptr<VertexObject> sphere_mesh_ = PrimitiveFactory::CreateSphere(0.03, 25, 25);
   std::shared_ptr<ShaderProgram> shader_ = std::make_shared<PhongShader>();
-  SceneNode* sphere_node_ptr;
-  bool fixed;
+  std::shared_ptr<ShaderProgram> line_shader_ = std::make_shared<SimpleShader>();
+  std::vector<SceneNode*> sphere_node_ptrs;
   std::shared_ptr<VertexObject> cloth_mesh_;
+  SceneNode* line_ptr;
+  const int N = 8;
 
 
   ComponentBase* GetComponentPtrByType(ComponentType type) const;

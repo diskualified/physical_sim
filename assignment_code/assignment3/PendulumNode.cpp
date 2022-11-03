@@ -8,24 +8,22 @@
 namespace GLOO {
 PendulumNode::PendulumNode(IntegratorType integrator_type, float integrator_step) : transform_(*this), parent_(nullptr), active_(true) {
     state = ParticleState();
-    // state.positions.push_back(glm::vec3(-0.5, 1., 0.));
-    // state.velocities.push_back(glm::vec3(0, 0.1, 0.));
     integrator = IntegratorFactory::CreateIntegrator<ParticleSystemPendulum, ParticleState>(integrator_type);
     system = ParticleSystemPendulum();
     step = integrator_step;
 
-    float k = 5.;
-    float r = 0.25;
-    float y = 1.;
+    float k = 4.;
+    float r = 0.5;
 
+    float y = 1.;
     for (int i = 0; i < 5; ++i) {
-      system.AddParticle(state, glm::vec3(-1., y, 0.));
+      system.AddParticle(state, glm::vec3(-1., y, 0.), glm::vec3(0.05, -1, 0.));
       system.fixed.push_back(false);
       if (i > 0) {
         system.AddSpring(i-1, i, r, k);
       }
-      r -= 0.01;
-      k -= 0.5;
+      r -= 0.1;
+      k -= 0.01;
       y -= 0.01;
 
       auto sphere_node = make_unique<SceneNode>();
@@ -37,7 +35,6 @@ PendulumNode::PendulumNode(IntegratorType integrator_type, float integrator_step
     }
 
     system.FixParticle(0);
-    // system.FixParticle(1);
 }
 
 void PendulumNode::Update(double delta_time) {

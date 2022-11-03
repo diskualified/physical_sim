@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/davidqian/mit/assignment3/external/src/glad/src/glad.c" "CMakeFiles/assignment3.dir/external/src/glad/src/glad.c.o" "gcc" "CMakeFiles/assignment3.dir/external/src/glad/src/glad.c.o.d"
+  "/Users/davidqian/mit/assignment3/assignment_code/assignment3/ClothNode.cpp" "CMakeFiles/assignment3.dir/assignment_code/assignment3/ClothNode.cpp.o" "gcc" "CMakeFiles/assignment3.dir/assignment_code/assignment3/ClothNode.cpp.o.d"
   "/Users/davidqian/mit/assignment3/assignment_code/assignment3/EulerSceneNode.cpp" "CMakeFiles/assignment3.dir/assignment_code/assignment3/EulerSceneNode.cpp.o" "gcc" "CMakeFiles/assignment3.dir/assignment_code/assignment3/EulerSceneNode.cpp.o.d"
   "/Users/davidqian/mit/assignment3/assignment_code/assignment3/PendulumNode.cpp" "CMakeFiles/assignment3.dir/assignment_code/assignment3/PendulumNode.cpp.o" "gcc" "CMakeFiles/assignment3.dir/assignment_code/assignment3/PendulumNode.cpp.o.d"
   "/Users/davidqian/mit/assignment3/assignment_code/assignment3/SimulationApp.cpp" "CMakeFiles/assignment3.dir/assignment_code/assignment3/SimulationApp.cpp.o" "gcc" "CMakeFiles/assignment3.dir/assignment_code/assignment3/SimulationApp.cpp.o.d"

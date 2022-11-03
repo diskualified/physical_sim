@@ -6,16 +6,16 @@
 namespace GLOO {
 class ParticleSystemPendulum: public ParticleSystemBase {
  public:
-  float mass = .1;
-  float drag = 0.03;
+  float mass = 0.1;
+  float drag = 0.04;
   glm::vec3 g = glm::vec3(0., -9.8, 0.);
   // make 2d vector that stores 2 indices, rest len, spring constant k
   std::vector<glm::vec4> springs;
   std::vector<bool> fixed;
 
-  void AddParticle(ParticleState& state, glm::vec3 pos) {
+  void AddParticle(ParticleState& state, glm::vec3 pos, glm::vec3 v) {
     state.positions.push_back(pos);
-    state.velocities.push_back(glm::vec3(0.2, -0.1, 0.));
+    state.velocities.push_back(v);
   }
   void AddSpring(int ind1, int ind2, float r, float k) {
     springs.push_back(glm::vec4(ind1, ind2, r, k));
