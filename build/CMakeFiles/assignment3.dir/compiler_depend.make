@@ -694,6 +694,7 @@ CMakeFiles/assignment3.dir/assignment_code/assignment3/ClothNode.cpp.o: /Users/d
   /Users/davidqian/mit/assignment3/gloo/components/RenderingComponent.hpp \
   /Users/davidqian/mit/assignment3/gloo/components/MaterialComponent.hpp \
   /Users/davidqian/mit/assignment3/gloo/Material.hpp \
+  /Users/davidqian/mit/assignment3/gloo/InputManager.hpp \
   /Users/davidqian/mit/assignment3/external/src/glm-0.9.9.8/glm/gtx/string_cast.hpp \
   /Users/davidqian/mit/assignment3/external/src/glm-0.9.9.8/glm/glm.hpp \
   /Users/davidqian/mit/assignment3/external/src/glm-0.9.9.8/glm/gtc/type_precision.hpp \
@@ -20244,9 +20245,9 @@ CMakeFiles/assignment3.dir/gloo/utils.cpp.o: /Users/davidqian/mit/assignment3/gl
 
 /Users/davidqian/mit/assignment3/external/src/glm-0.9.9.8/glm/gtx/norm.hpp:
 
-/Users/davidqian/mit/assignment3/gloo/InputManager.hpp:
-
 /Users/davidqian/mit/assignment3/gloo/lights/AmbientLight.hpp:
+
+/Users/davidqian/mit/assignment3/gloo/InputManager.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__mutex_base:
 

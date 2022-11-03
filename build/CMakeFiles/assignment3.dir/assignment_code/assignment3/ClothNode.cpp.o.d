@@ -692,6 +692,7 @@ CMakeFiles/assignment3.dir/assignment_code/assignment3/ClothNode.cpp.o: \
   /Users/davidqian/mit/assignment3/gloo/components/RenderingComponent.hpp \
   /Users/davidqian/mit/assignment3/gloo/components/MaterialComponent.hpp \
   /Users/davidqian/mit/assignment3/gloo/Material.hpp \
+  /Users/davidqian/mit/assignment3/gloo/InputManager.hpp \
   /Users/davidqian/mit/assignment3/external/src/glm-0.9.9.8/glm/gtx/string_cast.hpp \
   /Users/davidqian/mit/assignment3/external/src/glm-0.9.9.8/glm/gtx/../glm.hpp \
   /Users/davidqian/mit/assignment3/external/src/glm-0.9.9.8/glm/gtx/../gtc/type_precision.hpp \

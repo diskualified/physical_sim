@@ -4,6 +4,7 @@
 #include "gloo/components/RenderingComponent.hpp"
 #include "gloo/debug/PrimitiveFactory.hpp"
 #include "gloo/components/MaterialComponent.hpp"
+#include "gloo/InputManager.hpp"
 
 #include <glm/gtx/string_cast.hpp>
 
@@ -29,7 +30,7 @@ ClothNode::ClothNode(IntegratorType integrator_type, float integrator_step) : tr
         system.AddParticle(state, glm::vec3(x, y, 0.), glm::vec3(0.2, -0.1, 0.));
         system.fixed.push_back(false);
         positions->push_back(state.positions[IndexOf(i,j)]);
-        
+
         // structural springs
         if (i < N - 1) {
           system.AddSpring(IndexOf(i, j), IndexOf(i + 1, j), r, k);
@@ -98,6 +99,28 @@ int ClothNode::IndexOf(int i, int j) {
 }
 
 void ClothNode::Update(double delta_time) {
+  static bool prev_released = true;
+  if (InputManager::GetInstance().IsKeyPressed('R')) {
+    if (prev_released) {
+      state = ParticleState();
+      float y = 1.;
+      // auto positions = make_unique<PositionArray>();
+      for (int i = 0; i < N; ++i) {
+        float x = 1.;
+        for (int j = 0; j < N; ++j) {
+          system.AddParticle(state, glm::vec3(x, y, 0.), glm::vec3(0.2, -0.1, 0.));
+          // positions->push_back(state.positions[IndexOf(i,j)]);
+          sphere_node_ptrs[IndexOf(i, j)]->GetTransform().SetPosition(state.positions[IndexOf(i, j)]);
+          x += 0.3;
+        }
+        y -= 0.3;
+      }
+    }
+    prev_released = false;
+  } else {
+    prev_released = true;
+  }
+
   if (step > delta_time) {
     state = integrator->Integrate(system, state, 0, delta_time);
     for (int i = 0; i < sphere_node_ptrs.size(); ++i) {
