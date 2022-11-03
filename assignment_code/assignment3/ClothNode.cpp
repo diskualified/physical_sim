@@ -20,7 +20,7 @@ ClothNode::ClothNode(IntegratorType integrator_type, float integrator_step) : tr
     auto indices = make_unique<IndexArray>();
     
     system.drag = 0.4;
-    float k = 95.;
+    float k = 85.;
     float r = .3;
 
     float y = 1.;
@@ -104,12 +104,10 @@ void ClothNode::Update(double delta_time) {
     if (prev_released) {
       state = ParticleState();
       float y = 1.;
-      // auto positions = make_unique<PositionArray>();
       for (int i = 0; i < N; ++i) {
         float x = 1.;
         for (int j = 0; j < N; ++j) {
           system.AddParticle(state, glm::vec3(x, y, 0.), glm::vec3(0.2, -0.1, 0.));
-          // positions->push_back(state.positions[IndexOf(i,j)]);
           sphere_node_ptrs[IndexOf(i, j)]->GetTransform().SetPosition(state.positions[IndexOf(i, j)]);
           x += 0.3;
         }
